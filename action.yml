@@ -1,5 +1,5 @@
 name: "suggester / yaml"
-description: "Uses reviewdog to suggest yaml format changes."
+description: "Uses reviewdog to suggest the yaml format changes."
 
 inputs:
   changed_yaml_files:
