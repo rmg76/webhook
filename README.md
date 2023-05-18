@@ -5,7 +5,7 @@
 * __Responsibility:__ The Operator component is at the heart of the solution as it is the triggering engine for the different actions in the cluster; It responds to REST API requests and messages received over websocket connection, and triggers the relevant action in the cluster. Such actions could be triggering a configuration scan, image vulnerability scan, defining a recurring scan (by creating CronJobs), etc.
 
 
-<details><summary>Component Diagram</summary>
+<details><summary>Component Diagram1</summary>
 
 ```mermaid
 graph TB
