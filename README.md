@@ -90,3 +90,66 @@ subgraph Cluster 1
 </details>
 
 ---
+
+```mermaid
+graph TB
+  subgraph Cluster
+    gw(Gateway)
+    operator(Operator)
+    k8sApi(Kubernetes API);
+    kubevuln(Kubevuln)
+    ks(Kubescape)
+    urlCm{{ConfigMap<br>URLs}}
+    recurringTempCm{{ConfigMap<br>Recur. Scan Template}}
+    recurringScanCj{{CronJob<br>Recurring Scan}}
+  end;
+   masterGw(Master Gateway) .- gw
+    gw ---> operator
+    recurringScanCj ---> operator
+    recurringScanCj --> recurringScanCj
+    operator -->|scan cluster| ks
+    operator -->|scan images| kubevuln
+    operator --> k8sApi
+    operator --- urlCm
+    operator --- recurringTempCm
+  
+  classDef k8s fill:#326ce5,stroke:#fff,stroke-width:1px,color:#fff;
+  classDef plain fill:#ddd,stroke:#fff,stroke-width:1px,color:#000;
+  class k8sApi k8s
+  class ks,gw,masterGw,kollector,urlCm,recurringScanCj,recurringTempCm,kubevuln,er,dashboard plain
+```
+
+
+```mermaid
+graph TB
+  subgraph Backend
+   dashboard(Dashboard)
+    masterGw("Gateway (Master)") 
+  end
+   subgraph Cluster N
+    gw3("Gateway (In-cluster)")
+    operator3(Operator)
+  end;
+  subgraph Cluster 2
+    gw2("Gateway (In-cluster)")
+    operator2(Operator)
+  end;
+   
+subgraph Cluster 1
+    gw1("Gateway (In-cluster)")
+    operator1(Operator)
+  end;
+  dashboard --> masterGw
+   masterGw .- gw2
+   masterGw .- gw3
+       gw1 .- operator1
+    gw2 .- operator2
+    gw3 .- operator3
+   masterGw .- gw1
+
+    
+  classDef k8s fill:#326ce5,stroke:#fff,stroke-width:1px,color:#fff;
+  classDef plain fill:#ddd,stroke:#fff,stroke-width:1px,color:#000;
+  class k8sApi k8s
+  class ks,operator1,dashboard,operator2,operator3 plain
+```
