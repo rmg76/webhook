@@ -7,7 +7,8 @@ Follow the repository link for in-depth information on a specific component.
 
 ## High-level Architecture Diagram
 
-<details>
+<details><summary>Component</summary>
+
 ```mermaid
 graph TB
 
@@ -39,7 +40,9 @@ subgraph Backend
   class k8sApi k8s
   class ks,operator,gw,masterGw,kollector,kubevuln,er,dashboard plain
 ```
+  
 </details>
+
 ---
 
 ## [Operator](https://github.com/kubescape/operator)
