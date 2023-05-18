@@ -1,3 +1,47 @@
+# In-cluster components overview
+
+An overview of each in-cluster component which is part of the Kubescape platform helm chart.
+Follow the repository link for in-depth information on a specific component.
+
+---
+
+## High-level Architecture Diagram
+
+<details>
+```mermaid
+graph TB
+
+  client([client]) .-> dashboard
+  masterGw  .- gw
+
+  subgraph Cluster
+    gw(Gateway)
+    operator(Operator)
+    k8sApi(Kubernetes API);
+    kubevuln(Kubevuln)
+    ks(Kubescape)
+    gw --- operator
+    operator -->|scan cluster| ks
+    operator -->|scan images| kubevuln
+    operator --> k8sApi
+    ks --> k8sApi
+  end;
+  
+subgraph Backend
+    er(CloudEndpoint)
+    dashboard(Dashboard) --> masterGw("Master Gateway") 
+    ks --> er
+    kubevuln --> er
+  end;
+  
+  classDef k8s fill:#326ce5,stroke:#fff,stroke-width:1px,color:#fff;
+  classDef plain fill:#ddd,stroke:#fff,stroke-width:1px,color:#000;
+  class k8sApi k8s
+  class ks,operator,gw,masterGw,kollector,kubevuln,er,dashboard plain
+```
+</details>
+---
+
 ## [Operator](https://github.com/kubescape/operator)
 
 * __Resource Kind:__ `Deployment`
