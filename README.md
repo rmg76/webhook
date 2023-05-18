@@ -3,11 +3,8 @@
 An overview of each in-cluster component which is part of the Kubescape platform helm chart.
 Follow the repository link for in-depth information on a specific component.
 
----
-
 ## High-level Architecture Diagram
 
-<details><summary>Component</summary>
 
 ```mermaid
 graph TB
@@ -41,7 +38,6 @@ subgraph Backend
   class ks,operator,gw,masterGw,kollector,kubevuln,er,dashboard plain
 ```
   
-</details>
 
 ---
 
@@ -67,9 +63,8 @@ graph TB
     recurringScanCj{{CronJob<br>Recurring Scan}}
   end;
    masterGw(Master Gateway) .- gw
-    gw ---> operator
-    recurringScanCj ---> operator
-    recurringScanCj --> recurringScanCj
+    gw --> operator
+    recurringScanCj --> operator
     operator -->|scan cluster| ks
     operator -->|scan images| kubevuln
     operator --> k8sApi
@@ -79,7 +74,7 @@ graph TB
   classDef k8s fill:#326ce5,stroke:#fff,stroke-width:1px,color:#fff;
   classDef plain fill:#ddd,stroke:#fff,stroke-width:1px,color:#000;
   class k8sApi k8s
-  class ks,gw,masterGw,kollector,urlCm,recurringScanCj,recurringTempCm,kubevuln,er,dashboard plain
+  class ks,gw,masterGw,urlCm,recurringScanCj,recurringTempCm,kubevuln plain
 ```
 
 </details>
@@ -199,4 +194,33 @@ subgraph Cluster 1
   classDef plain fill:#ddd,stroke:#fff,stroke-width:1px,color:#000;
   class k8sApi k8s
   class ks,operator1,dashboard,operator2,operator3 plain
+```
+
+---
+---
+```mermaid
+graph TB
+  subgraph Cluster
+    gw(Gateway)
+    operator(Operator)
+    k8sApi(Kubernetes API);
+    kubevuln(Kubevuln)
+    ks(Kubescape)
+    urlCm{{ConfigMap<br>URLs}}
+    recurringTempCm{{ConfigMap<br>Recur. Scan Template}}
+    recurringScanCj{{CronJob<br>Recurring Scan}}
+  end;
+   masterGw(Master Gateway) .- gw
+    gw --> operator
+    recurringScanCj --> operator
+    operator -->|scan cluster| ks
+    operator -->|scan images| kubevuln
+    operator --> k8sApi
+    operator --- urlCm
+    operator --- recurringTempCm
+  
+  classDef k8s fill:#326ce5,stroke:#fff,stroke-width:1px,color:#fff;
+  classDef plain fill:#ddd,stroke:#fff,stroke-width:1px,color:#000;
+  class k8sApi k8s
+  class ks,gw,masterGw,urlCm,recurringScanCj,recurringTempCm,kubevuln plain
 ```
